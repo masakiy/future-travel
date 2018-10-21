@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[33]:
+# In[61]:
 
 
 from requests_oauthlib import OAuth1Session
@@ -81,15 +81,15 @@ def get_illustration(timeline,key_time):
                     break
             except:
                 pass
-        #条件を満たすtweetが見つからなかった時、#いらすとやの画像とコメントを表示
-        elif loop_num == len(timeline['statuses']) and image_get_flag == 0:
+        #条件を満たすtweetが見つからなかった時、#いらすとやの画像と定型の感想を表示
+    else:
+#       elif loop_num == len(timeline['statuses']) and image_get_flag == 0:
             image='https://1.bp.blogspot.com/-ZsRZh52shXU/WWNBGGNeLjI/AAAAAAABFZg/rRxw5r719Jk_ymwSq7sViPCl0DIcHjXigCLcBGAs/s600/travel_happy_family_set.png'
             file =io.BytesIO(urllib.request.urlopen(image).read())
             img = Image.open(file)
             img.show()
             return img,'旅行楽しい！'
-        else:
-            pass            
+    
 
 
 if __name__ == '__main__':
@@ -97,21 +97,21 @@ if __name__ == '__main__':
     print('未来旅行記')
     print('----------------------------------------------------')
     #出発地、時間
-    keyword_dep = dep_place + '行'     #検索対象の単語を設定、出発地 and '行'が含まれるtweetを検索
+    keyword_dep = dep_place + '楽'     #検索対象の単語を設定、出発地 and '楽'が含まれるtweetを検索
     print('出発地: ', dep_place, dep_time,'時')
     timeline = get_target_word(keyword_dep)
     illust_img_dep, illust_text_dep = get_illustration(timeline,dep_time)        #画像と感想を出力
     print(illust_img_dep, illust_text_dep)
     print('----------------------------------------------------')
     #経由地、時間
-    keyword_des = des_place + '旅行' #検索対象の単語を設定、経由地 and '旅行'が含まれるtweetを検索
+    keyword_des = des_place + '楽' #検索対象の単語を設定、経由地 and '旅行'が含まれるtweetを検索
     print('経由地: ', des_place, des_time,'時')
     timeline = get_target_word(keyword_des)
     illust_img_des,illust_text_des =  get_illustration(timeline,des_time)         #画像と感想を出力
     print(illust_img_des, illust_text_des)
     print('----------------------------------------------------')
     #目的地、時間
-    keyword_ret = ret_place + '帰'#検索対象の単語を設定、目的地 and '帰'が含まれるtweetを検索
+    keyword_ret = ret_place + '楽' #検索対象の単語を設定、目的地 and '帰'が含まれるtweetを検索
     print('目的地: ', ret_place, ret_time,'時')
     timeline = get_target_word(keyword_ret)
     illust_img_ret,illust_text_ret = get_illustration(timeline,ret_time)              #画像と感想を出力
