@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[5]:
+# In[8]:
 
 
 from requests_oauthlib import OAuth1Session
@@ -16,6 +16,7 @@ import numpy as np
 import io
 
 import datetime
+#subprocess.run(['jupyter', 'nbconvert', '--to', 'python', 'tweet_illust_text_get'])
                
 CK = settings.CONSUMER_KEY
 CS = settings.CONSUMER_SECRET
@@ -108,7 +109,7 @@ if __name__ == '__main__':
     
     print('----------------------------------------------------')
     #経由地、時間
-    keyword_des = des_place
+    keyword_des = des_place + '旅行'
     print(keyword_des, des_time,'時')
     timeline = get_target_word(keyword_des)
     #画像と感想を出力
