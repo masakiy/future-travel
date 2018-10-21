@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[4]:
+# In[5]:
 
 
 from requests_oauthlib import OAuth1Session
@@ -12,12 +12,10 @@ import subprocess
 import settings
 import time, calendar
 from PIL import Image
-import matplotlib.pyplot as plt
 import numpy as np
 import io
 
 import datetime
-#subprocess.run(['jupyter', 'nbconvert', '--to', 'python', 'tweet_picture_get.ipynb'])
                
 CK = settings.CONSUMER_KEY
 CS = settings.CONSUMER_SECRET
@@ -61,18 +59,12 @@ def get_illustration(timeline,key_time):
     check_image = []
     loop_num = 0
     for tweet in timeline['statuses']:
-        #検旅行での出発地、経由地、目的地の到着時刻と投稿時刻が近いtweetをフィルタリング。（±4時間） 
+        #出発地、経由地、目的地の到着時刻と投稿時刻が近いtweetをフィルタリング。（±4時間） 
         loop_num  +=1
         if key_time -4 < int(str(YmdHMS(tweet['created_at']))[8:10]) < key_time +4:
             #画像があれば、画像とツイートを取得
             try:                
                 media_list = tweet['extended_entities']['media']
-#                #画像をarrayに変換
-#                im_list = np.asarray(image)
-#                #貼り付け
-#                plt.imshow(im_list)
-#                #表示
-#                plt.show()
                     
                 for media in media_list:
                     image = media['media_url']
@@ -86,21 +78,15 @@ def get_illustration(timeline,key_time):
                     
                     return img, tweet['text']       
                     break
-    #        except KeyError:
-    #            print("KeyError:画像を含んでいないツイートです")
-    #        except:
-    #            print("error")
             except:
                 pass
-        #条件を満たすtweetが見つからなかった時
+        #条件を満たすtweetが見つからなかった時、#いらすとやの画像とコメントを表示
         elif loop_num == len(timeline['statuses']) and image_get_flag == 0:
-            #適当な画像とコメントを表示
             image='https://1.bp.blogspot.com/-ZsRZh52shXU/WWNBGGNeLjI/AAAAAAABFZg/rRxw5r719Jk_ymwSq7sViPCl0DIcHjXigCLcBGAs/s600/travel_happy_family_set.png'
             file =io.BytesIO(urllib.request.urlopen(image).read())
             img = Image.open(file)
             img.show()
             return img,'旅行楽しい！'
-#            pass            
         else:
             pass            
 
@@ -121,7 +107,7 @@ if __name__ == '__main__':
     print(illust_img_dep, illust_text_dep)
     
     print('----------------------------------------------------')
-    #目的地、時間
+    #経由地、時間
     keyword_des = des_place
     print(keyword_des, des_time,'時')
     timeline = get_target_word(keyword_des)
@@ -129,7 +115,7 @@ if __name__ == '__main__':
     illust_img_des,illust_text_des =  get_illustration(timeline,des_time)    
     print(illust_img_des, illust_text_des)
     print('----------------------------------------------------')
-    #帰着地、時間
+    #目的地、時間
     keyword_ret = ret_place + '帰'
     print(keyword_ret, ret_time,'時')
     timeline = get_target_word(keyword_ret)
