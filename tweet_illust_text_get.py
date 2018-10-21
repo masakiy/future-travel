@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[8]:
+# In[12]:
 
 
 from requests_oauthlib import OAuth1Session
@@ -60,9 +60,9 @@ def get_illustration(timeline,key_time):
     check_image = []
     loop_num = 0
     for tweet in timeline['statuses']:
-        #出発地、経由地、目的地の到着時刻と投稿時刻が近いtweetをフィルタリング。（±4時間） 
+        #出発地、経由地、目的地の到着時刻と投稿時刻が近いtweetをフィルタリング。（±3時間） 
         loop_num  +=1
-        if key_time -4 < int(str(YmdHMS(tweet['created_at']))[8:10]) < key_time +4:
+        if key_time -3 < int(str(YmdHMS(tweet['created_at']))[8:10]) < key_time +3:
             #画像があれば、画像とツイートを取得
             try:                
                 media_list = tweet['extended_entities']['media']
@@ -93,14 +93,9 @@ def get_illustration(timeline,key_time):
 
 
 if __name__ == '__main__':
-    # 検索対象の単語を設定
-    # ORで条件を付けれる
-    # 例:word = "ラーメン+OR+伊勢神宮"
-    # ならば、ツイートに出発地または目的地含まれる物を取得
-
     print('----------------------------------------------------')
     #出発地、時間
-    keyword_dep = dep_place + '行'
+    keyword_dep = dep_place + '行'     #検索対象の単語を設定、出発地 and '行'が含まれるtweetを検索
     print(keyword_dep, dep_time,'時')
     timeline = get_target_word(keyword_dep)
     #画像と感想を出力
